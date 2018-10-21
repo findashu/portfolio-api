@@ -1,0 +1,17 @@
+{
+  "name": "portfolio-api",
+  "version": "1.0.0",
+  "description": "portfolio app api",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app-portfolio.js"
+  },
+  "author": "ashu",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.4"
+  }
+}
