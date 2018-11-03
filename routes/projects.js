@@ -50,28 +50,44 @@ router.get('/', async (req,res) => {
 });
 
 
-// for reference
-// router.get('/', (req,res) => {
+router.get('/:id', (req,res, next) => {
+    let id = req.params.id;
 
-//     let skip = parseInt(req.query.skip) || 0;
-//     let limit = parseInt(req.query.limit) || 0;
+    Project.findById(id).then((project) => {
+        if(project ) {
+            res.json({'message': 'Project found', data:project})
+        }else {
+            res.status(404).json({'message': `Not found with id ${id}`})
+        }
+    }).catch(err => console.log(err)) 
+});
 
-//   Project.find({})
-//         .estimatedDocumentCount()
-//         .then((count) => {
-//             Project.find({})
-//                 .sort('name')
-//                 .skip(skip)
-//                 .limit(limit)
-//                 .then((projects) => {
-//                     if(projects && projects.length > 0){
-//                         res.json({data:projects, count})
-//                     }else {
-//                         res.status(404).json({message: 'No projects found'})
-//                     }
-//                 }).catch(err => console.log(err));
-//             }).catch(err => console.log(err))
-// });
+router.put('/:id', (req,res, next) => {
+    let id = req.params.id;
+    let projectObj =  req.body;
+
+    Project.findByIdAndUpdate(id, {$set: projectObj, $inc: {__v:1} }, {new:true})
+        .then((project) => {
+            res.json({data:project})
+        }).catch(err => next(err))
+})
+
+
+router.delete('/:id', (req,res,next) => {
+    let id = req.params.id;
+
+    Project.findByIdAndRemove(id).then((project) => {
+        res.status(204).json({message:'Project deleted', data:project});
+    }).catch(err => next(err))
+})
+
+router.get('/alias/:alias', (req,res,next) => {
+    let alias = req.params.alias;
+    
+    Project.findOne({alias: alias}).then((project) => {
+        res.json({data:project})
+    }).catch(err => next(err))
+});
 
 
 

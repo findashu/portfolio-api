@@ -22,7 +22,7 @@ router.post('/signup', (req,res) => {
     }); 
 
     newUser.save().then(user => {
-        res.status(201).json({'message':'User created successfully', data:user})
+        res.status(201).json({'message':'User created successfully'})
     }).catch(err => console.log(err));
 });
 
@@ -44,7 +44,7 @@ router.post('/login', (req,res) => {
                 }else {
                      user.password = ''
                     let token = signToken(user);
-                    res.json({message:'Successfully logged in',token:token})
+                    res.json({message:'Successfully logged in',token:token, data:user})
                 }
             }
         })
